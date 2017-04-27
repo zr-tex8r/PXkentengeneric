@@ -1,0 +1,133 @@
+%%
+%% This is file 'pxkentengeneric.sty'.
+%%
+%% Copyright (c) 2017 Takayuki YATO (aka. "ZR")
+%%   GitHub:   https://github.com/zr-tex8r
+%%   Twitter:  @zr_tex8r
+%%
+%% This package is distributed under the MIT License.
+%%
+
+%% package declaration
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{pxkentengeneric}[2017/04/25 v0.2]
+
+%% preparation
+\def\pxkg@pkgname{pxkentengeneric}
+
+%--------------------------------------- environment
+
+%% \ifpxkg@uptex
+\newif\ifpxkg@uptex
+\ifx\ucs\@undefined\else \ifnum\ucs"3000="3000
+  \pxkg@uptextrue
+\fi\fi
+
+%% \pxkg@scale
+\let\pxkg@scale\Cjascale
+\ifx\pxkg@scale\@undefined
+  \begingroup
+    \fontsize{10}{0}\selectfont
+    \setbox\z@\hbox{\char\jis"2121}%
+    \@tempdima=.1\wd\z@ \xdef\pxkg@scale{\strip@pt\@tempdima}%
+  \endgroup
+  \typeout{scale=\pxkg@scale}
+\fi
+
+%--------------------------------------- options
+
+%% drivers
+\chardef\pxkg@driver@@none=0
+\chardef\pxkg@driver@@dvipdfmx=1
+\let\pxkg@driver\pxkg@driver@@none
+\DeclareOption{dvips}{\let\pxkg@driver\pxkg@driver@@none}
+\DeclareOption{dvipdfmx}{\let\pxkg@driver\pxkg@driver@@dvipdfmx}
+\DeclareOption{nodvidriver}{\let\pxkg@driver\pxkg@driver@@none}
+%% 'mapload'
+\newif\ifpxkg@mapload
+\DeclareOption{mapload}{\pxkg@maploadtrue}
+% dispatch
+\ProcessOptions\relax
+
+%% consistency
+\ifpxkg@mapload
+  \ifnum\pxkg@driver=\pxkg@driver@@dvipdfmx\else
+    \PackageWarningNoLine\pxkg@pkgname
+     {The feature of map file autoload is NOT\MessageBreak
+      supproted on the current driver}
+    \pxkg@maploadfalse
+  \fi
+\fi
+
+%--------------------------------------- font settings
+
+%% \pxkg@mapfile
+\def\pxkg@mapfile{pdfm-\pxkg@pkgname}
+
+%% \pxkg@fam
+\def\pxkg@fam{kenteng}
+
+%% font families
+\ifpxkg@uptex
+  \DeclareFontFamily{JY2}{\pxkg@fam}{}
+  \DeclareFontShape{JY2}{\pxkg@fam}{m}{n}{<->kenteng-r-jy2}{}
+  \DeclareFontFamily{JT2}{\pxkg@fam}{}
+  \DeclareFontShape{JT2}{\pxkg@fam}{m}{n}{<->kenteng-r-jt2}{}
+\else
+  \DeclareFontFamily{JY1}{\pxkg@fam}{}
+  \DeclareFontShape{JY1}{\pxkg@fam}{m}{n}{<->kenteng-r-jy1}{}
+  \DeclareFontFamily{JT1}{\pxkg@fam}{}
+  \DeclareFontShape{JT1}{\pxkg@fam}{m}{n}{<->kenteng-r-jt1}{}
+\fi
+
+%%<+> \pxkentengenericMapLoad
+\@onlypreamble\pxkentengenericMapLoad
+\newcommand*\pxkentengenericMapLoad{%
+  \global\let\pxkentengenericMapLoad\lreax
+  \AtBeginDvi{\special{pdf:mapfile \pxkg@mapfile}}%
+}
+
+%% map load
+\ifpxkg@mapload
+  \pxkentengenericMapLoad
+\fi
+
+%--------------------------------------- main
+
+%%<*> \kentengfont
+\@ifdefinable{\kentengfont}{%
+  \DeclareRobustCommand*\kentengfont{%
+    \kanjifamily{\pxkg@fam}\kanjiseries{m}\kanjishape{n}%
+    \selectfont}
+}
+
+%% \pxkg@declare
+\@onlypreamble\pxkg@declare
+\def\pxkg@declare#1{%
+  \expandafter\pxkg@declare@a\csname kenteng#1\expandafter\endcsname
+      \csname pxkg@chr@@#1\endcsname}
+\@onlypreamble\pxkg@declare@a
+\def\pxkg@declare@a#1#2#3#4{%
+  \@ifdefinable{#1}{%
+    \ifpxkg@uptex \chardef#2="#4\relax
+    \else \chardef#2=\jis"#3\relax
+    \fi
+    \DeclareRobustCommand*{#1}{%
+      \begingroup \kentengfont #2\endgroup}%
+  }}
+
+%%<*> \kentengbullet, etc.
+\pxkg@declare{bullet}  {2126}{2022}
+\pxkg@declare{triangle}{2225}{25B2}
+\pxkg@declare{Triangle}{2224}{25B3}
+\pxkg@declare{fisheye} {2177}{25C9}
+\pxkg@declare{Circle}  {217B}{25CB}
+\pxkg@declare{bullseye}{217D}{25CE}
+\pxkg@declare{circle}  {217C}{25CF}
+\pxkg@declare{Bullet}  {236F}{25E6}
+\pxkg@declare{sesame}  {2122}{FE45}
+\pxkg@declare{Sesame}  {2123}{FE46}
+
+%--------------------------------------- all done
+\endinput
+%% EOF

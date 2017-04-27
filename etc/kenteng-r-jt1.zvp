@@ -1,0 +1,82 @@
+(DIRECTION TATE)
+(VTITLE KENTEN-GENERIC)
+(FAMILY KENTEN-GENERIC)
+(FACE F MRR)
+(CODINGSCHEME TEX KANJI TEXT)
+(FONTDIMEN
+   (SLANT R 0.0)
+   (SPACE R 0.0)
+   (STRETCH R 0.1)
+   (SHRINK R 0.0)
+   (XHEIGHT R 1.0)
+   (QUAD R 1.0)
+   (EXTRASPACE R 0.25)
+   (EXTRASTRETCH R 0.2)
+   (EXTRASHRINK R 0.125)
+   )
+(MAPFONT D 0
+   (FONTNAME kenteng-r-j59)
+   )
+(CODESPACE
+   X2121
+   X2126 X2225 X2224 X2177 X217B
+   X217D X217C X236F X2122 X2123
+   )
+(TYPE D 0
+   (CHARWD R 1.0)
+   (CHARHT R 0.5)
+   (CHARDP R 0.5)
+   (MAP
+      (SETCHAR D 1)
+      )
+   )
+(CHARACTER H 2126
+   (MAP
+      (SETCHAR D 2)
+      )
+   )
+(CHARACTER H 2225
+   (MAP
+      (SETCHAR D 3)
+      )
+   )
+(CHARACTER H 2224
+   (MAP
+      (SETCHAR D 4)
+      )
+   )
+(CHARACTER H 2177
+   (MAP
+      (SETCHAR D 5)
+      )
+   )
+(CHARACTER H 217B
+   (MAP
+      (SETCHAR D 6)
+      )
+   )
+(CHARACTER H 217D
+   (MAP
+      (SETCHAR D 7)
+      )
+   )
+(CHARACTER H 217C
+   (MAP
+      (SETCHAR D 8)
+      )
+   )
+(CHARACTER H 236F
+   (MAP
+      (SETCHAR D 9)
+      )
+   )
+(CHARACTER H 2122
+   (MAP
+      (SETCHAR D 10)
+      )
+   )
+(CHARACTER H 2123
+   (MAP
+      (SETCHAR D 11)
+      )
+   )
